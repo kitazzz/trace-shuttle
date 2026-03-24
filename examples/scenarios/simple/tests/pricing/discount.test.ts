@@ -1,6 +1,6 @@
-// @test SPEC-DISCOUNT-PREMIUM
-// @test SPEC-DISCOUNT-BULK
-// @test SPEC-DISCOUNT-STACK
+// @trace[test spec=SPEC-DISCOUNT-PREMIUM]
+// @trace[test spec=SPEC-DISCOUNT-BULK]
+// @trace[test spec=SPEC-DISCOUNT-STACK]
 
 import { describe, it, expect } from "vitest";
 // In a real setup this would import from the built package
@@ -8,7 +8,7 @@ import { describe, it, expect } from "vitest";
 
 describe("calculateDiscount", () => {
   it("gives 10% discount to premium users", () => {
-    // @test SPEC-DISCOUNT-PREMIUM
+    // @trace[test spec=SPEC-DISCOUNT-PREMIUM]
     const user = { tier: "premium", role: "user" };
     const order = { items: [{ price: 100 }] };
     // Would call calculateDiscount(user, order) and assert rate === 0.1
@@ -16,7 +16,7 @@ describe("calculateDiscount", () => {
   });
 
   it("gives 5% discount for bulk orders", () => {
-    // @test SPEC-DISCOUNT-BULK
+    // @trace[test spec=SPEC-DISCOUNT-BULK]
     const user = { tier: "basic", role: "user" };
     const items = Array.from({ length: 10 }, () => ({ price: 50 }));
     const order = { items };
@@ -24,7 +24,7 @@ describe("calculateDiscount", () => {
   });
 
   it("does not stack discounts", () => {
-    // @test SPEC-DISCOUNT-STACK
+    // @trace[test spec=SPEC-DISCOUNT-STACK]
     const user = { tier: "premium", role: "user" };
     const items = Array.from({ length: 10 }, () => ({ price: 50 }));
     const order = { items };

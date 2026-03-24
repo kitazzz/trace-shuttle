@@ -19,8 +19,8 @@ export const effectMustBeAnchored = createRule({
       unanchoredEffect: `Side-effectful call \`{{effectName}}\` at line {{line}} is not anchored to any spec.
 
 Required fix:
-1. Add \`/* @impl <spec-id> */\` above this call or its enclosing branch.
-2. Or add \`/* @needs-human-review */\` if no spec exists yet.`,
+1. Add \`/* @trace[impl spec=<spec-id>] */\` above this call or its enclosing branch.
+2. Or add \`/* @trace[needs-review] */\` if no spec exists yet.`,
     },
     schema: [
       {
@@ -52,8 +52,7 @@ Required fix:
             directAnnotations.some(
               (a) =>
                 a.type === "impl" ||
-                a.type === "decision" ||
-                a.type === "needs-human-review",
+                a.type === "needs-review",
             )
           ) {
             return;
@@ -107,8 +106,7 @@ function hasAnchoredAncestor(
         annotations.some(
           (a) =>
             a.type === "impl" ||
-            a.type === "decision" ||
-            a.type === "needs-human-review",
+            a.type === "needs-review",
         )
       ) {
         return true;

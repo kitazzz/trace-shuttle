@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "spec-shuttle": "./dist/cli.js"
+    "spec-shuttle": "./dist/cli-entry.js"
   },
   "exports": {
     ".": {

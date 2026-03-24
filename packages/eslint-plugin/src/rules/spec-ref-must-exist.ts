@@ -11,10 +11,10 @@ export const specRefMustExist = createRule({
   meta: {
     type: "problem",
     docs: {
-      description: "Ensure @impl references point to existing spec IDs",
+      description: "Ensure @trace[impl] references point to existing spec IDs",
     },
     messages: {
-      unknownSpec: `@impl references unknown spec "{{specId}}". Check your docs/ directory for valid spec IDs.`,
+      unknownSpec: `@trace[impl] references unknown spec "{{specId}}". Check your docs/ directory for valid spec IDs.`,
     },
     schema: [],
   },
@@ -25,7 +25,7 @@ export const specRefMustExist = createRule({
     return {
       Program(): void {
         const specIndex = getSpecIndexSync();
-        const specIds = new Set(specIndex.specs.map((s) => s.id));
+        const specIds = specIndex.specs;
 
         const annotations = getAllAnnotations(sourceCode);
         for (const annotation of annotations) {

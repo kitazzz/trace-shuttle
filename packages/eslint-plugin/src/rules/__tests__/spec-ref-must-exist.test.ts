@@ -2,6 +2,7 @@ import { RuleTester } from "@typescript-eslint/rule-tester";
 import { describe, it, afterAll, beforeEach } from "vitest";
 import { specRefMustExist } from "../spec-ref-must-exist.js";
 import { setSpecIndexSync } from "../../utils/spec-index-accessor.js";
+import type { IndexedSpecIndex } from "@spec-shuttle/core";
 
 RuleTester.afterAll = afterAll;
 RuleTester.describe = describe;
@@ -11,38 +12,44 @@ const ruleTester = new RuleTester();
 
 // Set up a mock spec index before tests
 beforeEach(() => {
-  setSpecIndexSync({
-    requirements: [],
-    specs: [
-      {
-        id: "SPEC-001",
-        requirementId: "REQ-001",
-        filePath: "docs/test.md",
-        line: 1,
-        rawText: "",
-      },
-    ],
-    implRefs: [],
-    testRefs: [],
-    decisionRefs: [],
-  });
+  const index: IndexedSpecIndex = {
+    requirements: new Map(),
+    specs: new Map([
+      [
+        "SPEC-001",
+        {
+          id: "SPEC-001",
+          requirementId: "REQ-001",
+          filePath: "docs/test.md",
+          line: 1,
+          rawText: "",
+        },
+      ],
+    ]),
+    specsByRequirement: new Map(),
+    implsBySpec: new Map(),
+    testsBySpec: new Map(),
+    refsByFile: new Map(),
+    allNodes: [],
+  };
+  setSpecIndexSync(index);
 });
 
 ruleTester.run("spec-ref-must-exist", specRefMustExist, {
   valid: [
     {
-      name: "@impl with existing spec ID",
-      code: `// @impl SPEC-001\nconst x = 1;`,
+      name: "@trace[impl] with existing spec ID",
+      code: `// @trace[impl spec=SPEC-001]\nconst x = 1;`,
     },
     {
-      name: "no @impl annotations at all",
+      name: "no annotations at all",
       code: `const x = 1;`,
     },
   ],
   invalid: [
     {
-      name: "@impl with non-existing spec ID",
-      code: `// @impl SPEC-999\nconst x = 1;`,
+      name: "@trace[impl] with non-existing spec ID",
+      code: `// @trace[impl spec=SPEC-999]\nconst x = 1;`,
       errors: [{ messageId: "unknownSpec" }],
     },
   ],

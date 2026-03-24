@@ -14,18 +14,18 @@ ruleTester.run(
   {
     valid: [
       {
-        name: "@impl annotation present on business branch",
+        name: "@trace[impl] annotation present on business branch",
         code: `
-/* @impl SPEC-001 */
+/* @trace[impl spec=SPEC-001] */
 if (user.role === "admin") {
   doSomething();
 }
 `,
       },
       {
-        name: "@needs-human-review present on business branch",
+        name: "@trace[needs-review] present on business branch",
         code: `
-/* @needs-human-review */
+/* @trace[needs-review] */
 if (user.status === "active") {
   activate();
 }
@@ -48,9 +48,9 @@ if (items.length > 0) {
 `,
       },
       {
-        name: "@impl on switch statement",
+        name: "@trace[impl] on switch statement",
         code: `
-/* @impl SPEC-002 */
+/* @trace[impl spec=SPEC-002] */
 switch (user.tier) {
   case "gold": break;
   case "silver": break;

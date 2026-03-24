@@ -1,16 +1,12 @@
 import type { TSESTree } from "@typescript-eslint/utils";
 import type { SourceCode } from "@typescript-eslint/utils/ts-eslint";
+import { parseTrace } from "@spec-shuttle/core";
 
 export interface ParsedAnnotation {
-  type: "impl" | "test" | "decision" | "needs-human-review";
+  type: "impl" | "test" | "needs-review";
   specId: string | null;
   line: number;
 }
-
-const IMPL_RE = /^@impl\s+(\S+)/;
-const TEST_RE = /^@test\s+(\S+)/;
-const DECISION_RE = /^@decision(?:\s+(\S+))?/;
-const NEEDS_HUMAN_REVIEW_RE = /^@needs-human-review/;
 
 /**
  * Parse a comment string into a ParsedAnnotation if recognized.
@@ -19,28 +15,19 @@ export function parseCommentText(
   text: string,
   line: number,
 ): ParsedAnnotation | null {
-  const value = text.replace(/^\*\s*/, "").trim();
+  const node = parseTrace(text, "", line);
+  if (!node) return null;
 
-  if (NEEDS_HUMAN_REVIEW_RE.test(value)) {
-    return { type: "needs-human-review", specId: null, line };
+  switch (node.kind) {
+    case "impl":
+      return { type: "impl", specId: node.attrs["spec"] ?? null, line };
+    case "test":
+      return { type: "test", specId: node.attrs["spec"] ?? null, line };
+    case "needs-review":
+      return { type: "needs-review", specId: null, line };
+    default:
+      return null;
   }
-
-  const implMatch = value.match(IMPL_RE);
-  if (implMatch) {
-    return { type: "impl", specId: implMatch[1], line };
-  }
-
-  const testMatch = value.match(TEST_RE);
-  if (testMatch) {
-    return { type: "test", specId: testMatch[1], line };
-  }
-
-  const decisionMatch = value.match(DECISION_RE);
-  if (decisionMatch) {
-    return { type: "decision", specId: decisionMatch[1] || null, line };
-  }
-
-  return null;
 }
 
 /**

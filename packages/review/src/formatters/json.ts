@@ -30,11 +30,6 @@ export function formatJson(result: AggregateResult): string {
           file: t.filePath,
           line: t.line,
         })),
-        decisions: link.decisions.map((d) => ({
-          file: d.filePath,
-          line: d.line,
-          description: d.description,
-        })),
         coverage: link.coverage,
       })),
     },

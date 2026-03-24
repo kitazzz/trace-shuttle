@@ -55,16 +55,6 @@ export function formatMarkdown(result: AggregateResult): string {
       }
       lines.push("");
     }
-
-    if (link.decisions.length > 0) {
-      lines.push("**Decisions:**");
-      for (const decision of link.decisions) {
-        lines.push(
-          `- ${decision.filePath}:${decision.line} — ${decision.description}`,
-        );
-      }
-      lines.push("");
-    }
   }
 
   return lines.join("\n");

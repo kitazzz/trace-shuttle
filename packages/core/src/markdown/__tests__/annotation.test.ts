@@ -3,9 +3,9 @@ import { extractAnnotations } from "../annotation.js";
 import type { HtmlComment } from "../parser.js";
 
 describe("extractAnnotations", () => {
-  it("parses a @requirement comment", () => {
+  it("parses a @trace[requirement ...] comment", () => {
     const comments: HtmlComment[] = [
-      { value: "@requirement id: REQ-001 category: pricing", line: 3 },
+      { value: "@trace[requirement id=REQ-001 category=pricing]", line: 3 },
     ];
     const result = extractAnnotations(comments, "docs/pricing.md");
     expect(result.requirements).toHaveLength(1);
@@ -18,11 +18,11 @@ describe("extractAnnotations", () => {
     });
   });
 
-  it("parses a @requirement with description text", () => {
+  it("parses a @trace[requirement ...] with text attr", () => {
     const comments: HtmlComment[] = [
       {
         value:
-          "@requirement id: REQ-002 category: auth Users must authenticate before checkout",
+          '@trace[requirement id=REQ-002 category=auth text="Users must authenticate before checkout"]',
         line: 5,
       },
     ];
@@ -32,9 +32,9 @@ describe("extractAnnotations", () => {
     );
   });
 
-  it("parses a @spec comment", () => {
+  it("parses a @trace[spec ...] comment", () => {
     const comments: HtmlComment[] = [
-      { value: "@spec id: SPEC-001 requirement: REQ-001", line: 10 },
+      { value: "@trace[spec id=SPEC-001 req=REQ-001]", line: 10 },
     ];
     const result = extractAnnotations(comments, "docs/pricing.md");
     expect(result.specs).toHaveLength(1);
@@ -47,11 +47,11 @@ describe("extractAnnotations", () => {
     });
   });
 
-  it("parses a @spec with description text", () => {
+  it("parses a @trace[spec ...] with text attr", () => {
     const comments: HtmlComment[] = [
       {
         value:
-          "@spec id: SPEC-002 requirement: REQ-001 Apply 10% discount for premium users",
+          '@trace[spec id=SPEC-002 req=REQ-001 text="Apply 10% discount for premium users"]',
         line: 15,
       },
     ];
@@ -63,10 +63,10 @@ describe("extractAnnotations", () => {
 
   it("handles a mix of requirements, specs, and unknown comments", () => {
     const comments: HtmlComment[] = [
-      { value: "@requirement id: REQ-001 category: pricing", line: 1 },
+      { value: "@trace[requirement id=REQ-001 category=pricing]", line: 1 },
       { value: "just a regular comment", line: 5 },
-      { value: "@spec id: SPEC-001 requirement: REQ-001", line: 10 },
-      { value: "@spec id: SPEC-002 requirement: REQ-001", line: 15 },
+      { value: "@trace[spec id=SPEC-001 req=REQ-001]", line: 10 },
+      { value: "@trace[spec id=SPEC-002 req=REQ-001]", line: 15 },
     ];
     const result = extractAnnotations(comments, "docs/pricing.md");
     expect(result.requirements).toHaveLength(1);

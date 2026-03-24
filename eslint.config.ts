@@ -3,11 +3,11 @@ import { resolve } from "node:path";
 
 export default [
   {
-    files: ["examples/src/**/*.ts"],
+    files: ["examples/scenarios/simple/src/**/*.ts"],
     ...shuttle.configs.recommended,
     settings: {
-      "shuttle/docsDir": resolve("examples/docs"),
-      "shuttle/srcDirs": [resolve("examples/src")],
+      "shuttle/docsDir": resolve("examples/scenarios/simple/docs"),
+      "shuttle/srcDirs": [resolve("examples/scenarios/simple/src")],
     },
   },
 ];

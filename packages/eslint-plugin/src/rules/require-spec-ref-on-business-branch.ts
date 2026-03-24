@@ -15,15 +15,15 @@ export const requireSpecRefOnBusinessBranch = createRule({
     type: "suggestion",
     docs: {
       description:
-        "Require @impl or @needs-human-review annotation on business logic branches",
+        "Require @trace[impl] or @trace[needs-review] annotation on business logic branches",
     },
     messages: {
       missingSpecRef: `This branch at line {{line}} appears to contain business logic (condition: \`{{conditionText}}\`), but has no spec annotation.
 
 Required fix:
 1. Find the matching spec ID from your docs/ directory.
-2. Add \`/* @impl <spec-id> */\` above this branch.
-3. If no matching spec exists, add \`/* @needs-human-review */\` instead.`,
+2. Add \`/* @trace[impl spec=<spec-id>] */\` above this branch.
+3. If no matching spec exists, add \`/* @trace[needs-review] */\` instead.`,
     },
     schema: [
       {
@@ -61,7 +61,7 @@ Required fix:
 
       const annotations = getAnnotationsBefore(sourceCode, node);
       const hasAnchor = annotations.some(
-        (a) => a.type === "impl" || a.type === "needs-human-review",
+        (a) => a.type === "impl" || a.type === "needs-review",
       );
 
       if (!hasAnchor) {

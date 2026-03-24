@@ -1,5 +1,4 @@
 import { requireSpecRefOnBusinessBranch } from "./rules/require-spec-ref-on-business-branch.js";
-import { requireDecisionCommentOnEffectfulBranch } from "./rules/require-decision-comment-on-effectful-branch.js";
 import { specRefMustExist } from "./rules/spec-ref-must-exist.js";
 import { testRefMustExist } from "./rules/test-ref-must-exist.js";
 import { effectMustBeAnchored } from "./rules/effect-must-be-anchored.js";
@@ -8,8 +7,6 @@ export { setSpecIndexSync, getSpecIndexSync } from "./utils/spec-index-accessor.
 
 const rules = {
   "require-spec-ref-on-business-branch": requireSpecRefOnBusinessBranch,
-  "require-decision-comment-on-effectful-branch":
-    requireDecisionCommentOnEffectfulBranch,
   "spec-ref-must-exist": specRefMustExist,
   "test-ref-must-exist": testRefMustExist,
   "effect-must-be-anchored": effectMustBeAnchored,
@@ -31,7 +28,6 @@ plugin.configs.recommended = {
   },
   rules: {
     "shuttle/require-spec-ref-on-business-branch": "warn",
-    "shuttle/require-decision-comment-on-effectful-branch": "warn",
     "shuttle/spec-ref-must-exist": "error",
     "shuttle/test-ref-must-exist": "error",
     "shuttle/effect-must-be-anchored": "warn",

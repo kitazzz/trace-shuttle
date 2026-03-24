@@ -1,58 +1,51 @@
-import type { SpecIndex } from "./types.js";
+import type { IndexedSpecIndex } from "./types.js";
 
 export interface ValidationIssue {
-  type: "orphan-impl" | "orphan-test" | "orphan-decision" | "missing-requirement";
+  type: "orphan-impl" | "orphan-test" | "missing-requirement";
   message: string;
   filePath: string;
   line: number;
 }
 
 /**
- * Validate referential integrity of a SpecIndex.
+ * Validate referential integrity of an IndexedSpecIndex.
  */
-export function validateSpecIndex(index: SpecIndex): ValidationIssue[] {
-  const specIds = new Set(index.specs.map((s) => s.id));
-  const reqIds = new Set(index.requirements.map((r) => r.id));
+export function validateSpecIndex(
+  index: IndexedSpecIndex,
+): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
 
-  for (const impl of index.implRefs) {
-    if (!specIds.has(impl.specId)) {
-      issues.push({
-        type: "orphan-impl",
-        message: `@impl references unknown spec "${impl.specId}"`,
-        filePath: impl.filePath,
-        line: impl.line,
-      });
+  for (const [specId, impls] of index.implsBySpec) {
+    if (!index.specs.has(specId)) {
+      for (const impl of impls) {
+        issues.push({
+          type: "orphan-impl",
+          message: `@trace[impl] references unknown spec "${specId}"`,
+          filePath: impl.filePath,
+          line: impl.line,
+        });
+      }
     }
   }
 
-  for (const test of index.testRefs) {
-    if (!specIds.has(test.specId)) {
-      issues.push({
-        type: "orphan-test",
-        message: `@test references unknown spec "${test.specId}"`,
-        filePath: test.filePath,
-        line: test.line,
-      });
+  for (const [specId, tests] of index.testsBySpec) {
+    if (!index.specs.has(specId)) {
+      for (const test of tests) {
+        issues.push({
+          type: "orphan-test",
+          message: `@trace[test] references unknown spec "${specId}"`,
+          filePath: test.filePath,
+          line: test.line,
+        });
+      }
     }
   }
 
-  for (const decision of index.decisionRefs) {
-    if (decision.specId && !specIds.has(decision.specId)) {
-      issues.push({
-        type: "orphan-decision",
-        message: `@decision references unknown spec "${decision.specId}"`,
-        filePath: decision.filePath,
-        line: decision.line,
-      });
-    }
-  }
-
-  for (const spec of index.specs) {
-    if (!reqIds.has(spec.requirementId)) {
+  for (const spec of index.specs.values()) {
+    if (!index.requirements.has(spec.requirementId)) {
       issues.push({
         type: "missing-requirement",
-        message: `@spec "${spec.id}" references unknown requirement "${spec.requirementId}"`,
+        message: `@trace[spec] "${spec.id}" references unknown requirement "${spec.requirementId}"`,
         filePath: spec.filePath,
         line: spec.line,
       });

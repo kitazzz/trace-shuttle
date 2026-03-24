@@ -32,28 +32,10 @@ export interface TestRef {
   testName: string;
 }
 
-/** A decision reference found in source code */
-export interface DecisionRef {
-  specId: string | null;
-  description: string;
-  filePath: string;
-  line: number;
-}
-
-/** The complete index of all spec-related annotations */
-export interface SpecIndex {
-  requirements: Requirement[];
-  specs: Spec[];
-  implRefs: ImplRef[];
-  testRefs: TestRef[];
-  decisionRefs: DecisionRef[];
-}
-
 /** Coverage info for a single spec */
 export interface SpecCoverage {
   hasImplementation: boolean;
   hasTest: boolean;
-  hasDecision: boolean;
 }
 
 /** A fully resolved link between a spec and its related artifacts */
@@ -62,17 +44,37 @@ export interface SpecLink {
   requirement: Requirement | null;
   implementations: ImplRef[];
   tests: TestRef[];
-  decisions: DecisionRef[];
   coverage: SpecCoverage;
 }
 
-/** Creates an empty SpecIndex */
-export function emptySpecIndex(): SpecIndex {
+/** A single @trace[...] annotation node */
+export interface TraceNode {
+  kind: "requirement" | "spec" | "impl" | "test" | "needs-review";
+  attrs: Record<string, string>;
+  filePath: string;
+  line: number;
+}
+
+/** Map-based indexed spec index for O(1) lookups */
+export interface IndexedSpecIndex {
+  requirements: Map<string, Requirement>;
+  specs: Map<string, Spec>;
+  specsByRequirement: Map<string, Spec[]>;
+  implsBySpec: Map<string, ImplRef[]>;
+  testsBySpec: Map<string, TestRef[]>;
+  refsByFile: Map<string, TraceNode[]>;
+  allNodes: TraceNode[];
+}
+
+/** Creates an empty IndexedSpecIndex */
+export function emptyIndexedSpecIndex(): IndexedSpecIndex {
   return {
-    requirements: [],
-    specs: [],
-    implRefs: [],
-    testRefs: [],
-    decisionRefs: [],
+    requirements: new Map(),
+    specs: new Map(),
+    specsByRequirement: new Map(),
+    implsBySpec: new Map(),
+    testsBySpec: new Map(),
+    refsByFile: new Map(),
+    allNodes: [],
   };
 }

@@ -11,25 +11,25 @@ const ruleTester = new RuleTester();
 ruleTester.run("effect-must-be-anchored", effectMustBeAnchored, {
   valid: [
     {
-      name: "effectful call with direct @impl annotation",
+      name: "effectful call with direct @trace[impl] annotation",
       code: `
-/* @impl SPEC-001 */
+/* @trace[impl spec=SPEC-001] */
 db.save(record);
 `,
     },
     {
       name: "effectful call inside anchored branch",
       code: `
-/* @impl SPEC-001 */
+/* @trace[impl spec=SPEC-001] */
 if (valid) {
   db.save(record);
 }
 `,
     },
     {
-      name: "effectful call with @needs-human-review",
+      name: "effectful call with @trace[needs-review]",
       code: `
-/* @needs-human-review */
+/* @trace[needs-review] */
 db.delete(record);
 `,
     },
@@ -37,13 +37,6 @@ db.delete(record);
       name: "non-effectful call needs no annotation",
       code: `
 console.log("hello");
-`,
-    },
-    {
-      name: "effectful call with @decision",
-      code: `
-/* @decision SPEC-001 persist for audit */
-db.save(record);
 `,
     },
   ],

@@ -1,45 +1,33 @@
 import type { Requirement, Spec } from "../model/types.js";
 import type { HtmlComment } from "./parser.js";
-
-const REQUIREMENT_RE =
-  /^@requirement\s+id:\s*(\S+)\s+category:\s*(\S+)(?:\s+(.*))?$/s;
-const SPEC_RE =
-  /^@spec\s+id:\s*(\S+)\s+requirement:\s*(\S+)(?:\s+(.*))?$/s;
+import { parseTrace } from "../trace/parse-trace.js";
+import {
+  traceNodeToRequirement,
+  traceNodeToSpec,
+} from "../trace/trace-to-model.js";
 
 /**
- * Try to parse a comment as a @requirement annotation.
+ * Try to parse a comment as a @trace[requirement ...] annotation.
  */
 export function parseRequirement(
   comment: HtmlComment,
   filePath: string,
 ): Requirement | null {
-  const match = comment.value.match(REQUIREMENT_RE);
-  if (!match) return null;
-  return {
-    id: match[1],
-    category: match[2],
-    filePath,
-    line: comment.line,
-    rawText: match[3]?.trim() ?? "",
-  };
+  const node = parseTrace(comment.value, filePath, comment.line);
+  if (!node) return null;
+  return traceNodeToRequirement(node);
 }
 
 /**
- * Try to parse a comment as a @spec annotation.
+ * Try to parse a comment as a @trace[spec ...] annotation.
  */
 export function parseSpec(
   comment: HtmlComment,
   filePath: string,
 ): Spec | null {
-  const match = comment.value.match(SPEC_RE);
-  if (!match) return null;
-  return {
-    id: match[1],
-    requirementId: match[2],
-    filePath,
-    line: comment.line,
-    rawText: match[3]?.trim() ?? "",
-  };
+  const node = parseTrace(comment.value, filePath, comment.line);
+  if (!node) return null;
+  return traceNodeToSpec(node);
 }
 
 /**

@@ -1,5 +1,5 @@
-import type { SpecIndex } from "@spec-shuttle/core";
-import { emptySpecIndex, getSpecIndex } from "@spec-shuttle/core";
+import type { IndexedSpecIndex } from "@spec-shuttle/core";
+import { emptyIndexedSpecIndex, getSpecIndex } from "@spec-shuttle/core";
 
 /**
  * Retrieve the docsDir from ESLint settings.
@@ -21,21 +21,21 @@ export function getSrcDirs(settings: Record<string, unknown>): string[] {
 }
 
 // Synchronous cache for ESLint rules (populated asynchronously beforehand)
-let syncCache: SpecIndex | null = null;
+let syncCache: IndexedSpecIndex | null = null;
 
 /**
- * Set the SpecIndex cache synchronously (for use in ESLint rules).
+ * Set the IndexedSpecIndex cache synchronously (for use in ESLint rules).
  */
-export function setSpecIndexSync(index: SpecIndex): void {
+export function setSpecIndexSync(index: IndexedSpecIndex): void {
   syncCache = index;
 }
 
 /**
- * Get the SpecIndex synchronously from cache.
+ * Get the IndexedSpecIndex synchronously from cache.
  * Returns an empty index if not cached.
  */
-export function getSpecIndexSync(): SpecIndex {
-  return syncCache ?? emptySpecIndex();
+export function getSpecIndexSync(): IndexedSpecIndex {
+  return syncCache ?? emptyIndexedSpecIndex();
 }
 
 /**
@@ -43,9 +43,9 @@ export function getSpecIndexSync(): SpecIndex {
  */
 export async function populateSpecIndex(
   settings: Record<string, unknown>,
-): Promise<SpecIndex> {
+): Promise<IndexedSpecIndex> {
   const docsDir = getDocsDir(settings);
-  if (!docsDir) return emptySpecIndex();
+  if (!docsDir) return emptyIndexedSpecIndex();
 
   const srcDirs = getSrcDirs(settings);
   const index = await getSpecIndex(docsDir, srcDirs);

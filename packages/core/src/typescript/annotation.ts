@@ -1,13 +1,9 @@
-import type { ImplRef, TestRef, DecisionRef } from "../model/types.js";
+import type { ImplRef, TestRef } from "../model/types.js";
 import type { SourceComment } from "./parser.js";
-
-const IMPL_RE = /^@impl\s+(\S+)/;
-const TEST_RE = /^@test\s+(\S+)/;
-const DECISION_RE = /^@decision(?:\s+(\S+))?\s*(.*)?$/s;
-const NEEDS_HUMAN_REVIEW_RE = /^@needs-human-review/;
+import { parseTrace } from "../trace/parse-trace.js";
 
 export interface ParsedAnnotation {
-  type: "impl" | "test" | "decision" | "needs-human-review";
+  type: "impl" | "test" | "needs-review";
   specId: string | null;
   description: string;
   line: number;
@@ -19,52 +15,38 @@ export interface ParsedAnnotation {
 export function parseAnnotation(
   comment: SourceComment,
 ): ParsedAnnotation | null {
-  const value = comment.value.replace(/^\*\s*/, "").trim();
+  const node = parseTrace(comment.value, "", comment.line);
+  if (!node) return null;
 
-  if (NEEDS_HUMAN_REVIEW_RE.test(value)) {
-    return {
-      type: "needs-human-review",
-      specId: null,
-      description: "",
-      line: comment.line,
-    };
+  switch (node.kind) {
+    case "impl":
+      return {
+        type: "impl",
+        specId: node.attrs["spec"] ?? null,
+        description: "",
+        line: comment.line,
+      };
+    case "test":
+      return {
+        type: "test",
+        specId: node.attrs["spec"] ?? null,
+        description: "",
+        line: comment.line,
+      };
+    case "needs-review":
+      return {
+        type: "needs-review",
+        specId: null,
+        description: "",
+        line: comment.line,
+      };
+    default:
+      return null;
   }
-
-  const implMatch = value.match(IMPL_RE);
-  if (implMatch) {
-    return {
-      type: "impl",
-      specId: implMatch[1],
-      description: "",
-      line: comment.line,
-    };
-  }
-
-  const testMatch = value.match(TEST_RE);
-  if (testMatch) {
-    return {
-      type: "test",
-      specId: testMatch[1],
-      description: "",
-      line: comment.line,
-    };
-  }
-
-  const decisionMatch = value.match(DECISION_RE);
-  if (decisionMatch) {
-    return {
-      type: "decision",
-      specId: decisionMatch[1] || null,
-      description: decisionMatch[2]?.trim() ?? "",
-      line: comment.line,
-    };
-  }
-
-  return null;
 }
 
 /**
- * Extract all impl, test, and decision refs from a list of source comments.
+ * Extract all impl and test refs from a list of source comments.
  */
 export function extractTsAnnotations(
   comments: SourceComment[],
@@ -72,11 +54,9 @@ export function extractTsAnnotations(
 ): {
   implRefs: ImplRef[];
   testRefs: TestRef[];
-  decisionRefs: DecisionRef[];
 } {
   const implRefs: ImplRef[] = [];
   const testRefs: TestRef[] = [];
-  const decisionRefs: DecisionRef[] = [];
 
   for (const comment of comments) {
     const annotation = parseAnnotation(comment);
@@ -99,16 +79,8 @@ export function extractTsAnnotations(
           testName: "",
         });
         break;
-      case "decision":
-        decisionRefs.push({
-          specId: annotation.specId,
-          description: annotation.description,
-          filePath,
-          line: annotation.line,
-        });
-        break;
     }
   }
 
-  return { implRefs, testRefs, decisionRefs };
+  return { implRefs, testRefs };
 }

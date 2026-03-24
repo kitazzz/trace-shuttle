@@ -3,9 +3,9 @@ import { parseAnnotation, extractTsAnnotations } from "../annotation.js";
 import type { SourceComment } from "../parser.js";
 
 describe("parseAnnotation", () => {
-  it("parses @impl annotation", () => {
+  it("parses @trace[impl ...] annotation", () => {
     const result = parseAnnotation({
-      value: "@impl SPEC-001",
+      value: "@trace[impl spec=SPEC-001]",
       line: 5,
       type: "line",
     });
@@ -17,9 +17,9 @@ describe("parseAnnotation", () => {
     });
   });
 
-  it("parses @impl from block comment with *", () => {
+  it("parses @trace[impl ...] from block comment with *", () => {
     const result = parseAnnotation({
-      value: "* @impl SPEC-002",
+      value: "* @trace[impl spec=SPEC-002]",
       line: 10,
       type: "block",
     });
@@ -31,9 +31,9 @@ describe("parseAnnotation", () => {
     });
   });
 
-  it("parses @test annotation", () => {
+  it("parses @trace[test ...] annotation", () => {
     const result = parseAnnotation({
-      value: "@test SPEC-001",
+      value: "@trace[test spec=SPEC-001]",
       line: 3,
       type: "line",
     });
@@ -45,38 +45,14 @@ describe("parseAnnotation", () => {
     });
   });
 
-  it("parses @decision with spec ID and description", () => {
+  it("parses @trace[needs-review]", () => {
     const result = parseAnnotation({
-      value: "@decision SPEC-001 Use 10% for initial launch",
-      line: 20,
-      type: "block",
-    });
-    expect(result).toEqual({
-      type: "decision",
-      specId: "SPEC-001",
-      description: "Use 10% for initial launch",
-      line: 20,
-    });
-  });
-
-  it("parses @decision without spec ID", () => {
-    const result = parseAnnotation({
-      value: "@decision General architectural choice",
-      line: 30,
-      type: "block",
-    });
-    // The regex captures first word after @decision as specId
-    expect(result?.type).toBe("decision");
-  });
-
-  it("parses @needs-human-review", () => {
-    const result = parseAnnotation({
-      value: "@needs-human-review",
+      value: "@trace[needs-review]",
       line: 7,
       type: "line",
     });
     expect(result).toEqual({
-      type: "needs-human-review",
+      type: "needs-review",
       specId: null,
       description: "",
       line: 7,
@@ -94,11 +70,10 @@ describe("parseAnnotation", () => {
 });
 
 describe("extractTsAnnotations", () => {
-  it("extracts all annotation types", () => {
+  it("extracts impl and test annotations", () => {
     const comments: SourceComment[] = [
-      { value: "@impl SPEC-001", line: 5, type: "line" },
-      { value: "@test SPEC-002", line: 10, type: "line" },
-      { value: "@decision SPEC-001 rate choice", line: 15, type: "block" },
+      { value: "@trace[impl spec=SPEC-001]", line: 5, type: "line" },
+      { value: "@trace[test spec=SPEC-002]", line: 10, type: "line" },
       { value: "regular comment", line: 20, type: "line" },
     ];
 
@@ -107,7 +82,5 @@ describe("extractTsAnnotations", () => {
     expect(result.implRefs[0].specId).toBe("SPEC-001");
     expect(result.testRefs).toHaveLength(1);
     expect(result.testRefs[0].specId).toBe("SPEC-002");
-    expect(result.decisionRefs).toHaveLength(1);
-    expect(result.decisionRefs[0].specId).toBe("SPEC-001");
   });
 });
