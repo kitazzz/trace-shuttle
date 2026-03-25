@@ -1,6 +1,6 @@
 {
   "name": "@kitazzz/trace-shuttle-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI commands for reviewing and validating trace-shuttle annotations.",
   "license": "MIT",
   "author": "kitazzz",
@@ -12,7 +12,7 @@
   ],
   "type": "module",
   "bin": {
-    "trace-shuttle": "./dist/cli-entry.js"
+    "trace-shuttle": "dist/cli-entry.js"
   },
   "exports": {
     ".": {
