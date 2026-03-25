@@ -2,7 +2,7 @@ import { RuleTester } from "@typescript-eslint/rule-tester";
 import { describe, it, afterAll, beforeEach } from "vitest";
 import { specRefMustExist } from "../spec-ref-must-exist.js";
 import { setSpecIndexSync } from "../../utils/spec-index-accessor.js";
-import type { IndexedSpecIndex } from "@spec-shuttle/core";
+import type { IndexedSpecIndex } from "@trace-shuttle/core";
 
 RuleTester.afterAll = afterAll;
 RuleTester.describe = describe;

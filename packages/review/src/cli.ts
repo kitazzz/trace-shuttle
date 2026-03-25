@@ -7,13 +7,13 @@ import {
   getSpecIndex,
   SpecGraph,
   validateSpecIndex,
-} from "@spec-shuttle/core";
+} from "@trace-shuttle/core";
 
 export function createProgram(): Command {
   const program = new Command();
 
   program
-    .name("spec-shuttle")
+    .name("trace-shuttle")
     .description("Spec anchoring review tool")
     .version("0.1.0");
 

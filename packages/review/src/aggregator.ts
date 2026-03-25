@@ -1,5 +1,5 @@
-import { getSpecIndex, SpecGraph } from "@spec-shuttle/core";
-import type { SpecLink } from "@spec-shuttle/core";
+import { getSpecIndex, SpecGraph } from "@trace-shuttle/core";
+import type { SpecLink } from "@trace-shuttle/core";
 
 export interface AggregateResult {
   links: SpecLink[];

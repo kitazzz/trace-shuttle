@@ -6,7 +6,7 @@ import {
 import { getAnnotationsBefore } from "../utils/comment-utils.js";
 
 const createRule = ESLintUtils.RuleCreator(
-  (name) => `https://github.com/spec-shuttle/spec-shuttle#${name}`,
+  (name) => `https://github.com/trace-shuttle/trace-shuttle#${name}`,
 );
 
 export const requireSpecRefOnBusinessBranch = createRule({

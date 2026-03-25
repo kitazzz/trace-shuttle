@@ -1,6 +1,9 @@
 {
-  "name": "spec-shuttle-monorepo",
+  "name": "trace-shuttle-monorepo",
   "private": true,
+  "description": "Monorepo for trace-shuttle core, CLI review tooling, and ESLint integration.",
+  "license": "MIT",
+  "author": "kitazzz",
   "type": "module",
   "scripts": {
     "build": "pnpm -r run build",
@@ -8,10 +11,11 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "vitest": "^3.0.0",
+    "@trace-shuttle/eslint-plugin": "workspace:*",
+    "eslint": "^9.0.0",
     "tsup": "^8.0.0",
-    "eslint": "^9.0.0"
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   },
   "packageManager": "pnpm@10.28.1",
   "engines": {

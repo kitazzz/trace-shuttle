@@ -3,7 +3,7 @@ import { getAllAnnotations } from "../utils/comment-utils.js";
 import { getSpecIndexSync } from "../utils/spec-index-accessor.js";
 
 const createRule = ESLintUtils.RuleCreator(
-  (name) => `https://github.com/spec-shuttle/spec-shuttle#${name}`,
+  (name) => `https://github.com/trace-shuttle/trace-shuttle#${name}`,
 );
 
 export const specRefMustExist = createRule({

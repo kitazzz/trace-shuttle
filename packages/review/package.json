@@ -1,9 +1,19 @@
 {
-  "name": "@spec-shuttle/review",
+  "name": "@trace-shuttle/review",
   "version": "0.1.0",
+  "description": "CLI reporting and validation commands for trace-shuttle.",
+  "license": "MIT",
+  "author": "kitazzz",
+  "keywords": [
+    "traceability",
+    "cli",
+    "specification",
+    "review",
+    "reporting"
+  ],
   "type": "module",
   "bin": {
-    "spec-shuttle": "./dist/cli-entry.js"
+    "trace-shuttle": "./dist/cli-entry.js"
   },
   "exports": {
     ".": {
@@ -23,7 +33,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@spec-shuttle/core": "workspace:*",
+    "@trace-shuttle/core": "workspace:*",
     "commander": "^13.0.0"
   },
   "devDependencies": {

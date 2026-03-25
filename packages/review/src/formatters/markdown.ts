@@ -6,7 +6,7 @@ import type { AggregateResult } from "../aggregator.js";
 export function formatMarkdown(result: AggregateResult): string {
   const lines: string[] = [];
 
-  lines.push("# Spec Shuttle Review");
+  lines.push("# Trace Shuttle Review");
   lines.push("");
   lines.push("## Coverage Summary");
   lines.push("");

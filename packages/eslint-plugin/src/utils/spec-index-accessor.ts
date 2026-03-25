@@ -1,11 +1,11 @@
-import type { IndexedSpecIndex } from "@spec-shuttle/core";
-import { emptyIndexedSpecIndex, getSpecIndex } from "@spec-shuttle/core";
+import type { IndexedSpecIndex } from "@trace-shuttle/core";
+import { emptyIndexedSpecIndex, getSpecIndex } from "@trace-shuttle/core";
 
 /**
  * Retrieve the docsDir from ESLint settings.
  */
 export function getDocsDir(settings: Record<string, unknown>): string | null {
-  const docsDir = settings["shuttle/docsDir"];
+  const docsDir = settings["trace-shuttle/docsDir"];
   return typeof docsDir === "string" ? docsDir : null;
 }
 
@@ -13,7 +13,7 @@ export function getDocsDir(settings: Record<string, unknown>): string | null {
  * Retrieve srcDirs from ESLint settings.
  */
 export function getSrcDirs(settings: Record<string, unknown>): string[] {
-  const srcDirs = settings["shuttle/srcDirs"];
+  const srcDirs = settings["trace-shuttle/srcDirs"];
   if (Array.isArray(srcDirs)) {
     return srcDirs.filter((d): d is string => typeof d === "string");
   }

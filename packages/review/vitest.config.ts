@@ -4,7 +4,7 @@ import path from "node:path";
 export default defineConfig({
   resolve: {
     alias: {
-      "@spec-shuttle/core": path.resolve(
+      "@trace-shuttle/core": path.resolve(
         __dirname,
         "../core/src/index.ts",
       ),

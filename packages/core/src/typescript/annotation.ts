@@ -10,7 +10,7 @@ export interface ParsedAnnotation {
 }
 
 /**
- * Parse a single comment for spec-shuttle annotations.
+ * Parse a single comment for trace-shuttle annotations.
  */
 export function parseAnnotation(
   comment: SourceComment,

@@ -1,6 +1,16 @@
 {
-  "name": "@spec-shuttle/eslint-plugin",
+  "name": "@trace-shuttle/eslint-plugin",
   "version": "0.1.0",
+  "description": "ESLint plugin for enforcing trace-shuttle annotations and spec references.",
+  "license": "MIT",
+  "author": "kitazzz",
+  "keywords": [
+    "eslint",
+    "traceability",
+    "typescript",
+    "specification",
+    "lint"
+  ],
   "type": "module",
   "exports": {
     ".": {
@@ -12,21 +22,25 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "test": "vitest run"
   },
   "dependencies": {
-    "@spec-shuttle/core": "workspace:*",
+    "@trace-shuttle/core": "workspace:*",
+    "@typescript-eslint/parser": "^8.57.2",
     "@typescript-eslint/utils": "^8.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "tsup": "^8.0.0",
-    "vitest": "^3.0.0",
+    "@types/node": "^25.5.0",
     "@typescript-eslint/rule-tester": "^8.0.0",
-    "eslint": "^9.0.0"
+    "eslint": "^9.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
