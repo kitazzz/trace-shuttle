@@ -7,7 +7,7 @@ import {
   getSpecIndex,
   SpecGraph,
   validateSpecIndex,
-} from "@trace-shuttle/core";
+} from "@kitazzz/trace-shuttle-core";
 
 export function createProgram(): Command {
   const program = new Command();

@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { aggregate } from "../aggregator.js";
 import { formatJson } from "../formatters/json.js";
 import { formatMarkdown } from "../formatters/markdown.js";
-import { clearSpecIndexCache } from "@trace-shuttle/core";
+import { clearSpecIndexCache } from "@kitazzz/trace-shuttle-core";
 
 const EXAMPLES_DIR = join(__dirname, "../../../../examples");
 const SIMPLE_DIR = join(EXAMPLES_DIR, "scenarios/simple");

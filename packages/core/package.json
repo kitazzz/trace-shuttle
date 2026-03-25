@@ -1,5 +1,5 @@
 {
-  "name": "@trace-shuttle/core",
+  "name": "@kitazzz/trace-shuttle-core",
   "version": "0.1.0",
   "description": "Core parsing, indexing, graph, and validation utilities for trace-shuttle.",
   "license": "MIT",

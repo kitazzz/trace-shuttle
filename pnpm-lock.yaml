@@ -8,12 +8,34 @@ importers:
 
   .:
     devDependencies:
-      '@trace-shuttle/eslint-plugin':
+      '@kitazzz/trace-shuttle-eslint-plugin':
         specifier: workspace:*
         version: link:packages/eslint-plugin
       eslint:
         specifier: ^9.0.0
         version: 9.39.4(jiti@2.6.1)
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4(@types/debug@4.1.13)(@types/node@25.5.0)(jiti@2.6.1)
+
+  packages/cli:
+    dependencies:
+      '@kitazzz/trace-shuttle-core':
+        specifier: workspace:*
+        version: link:../core
+      commander:
+        specifier: ^13.0.0
+        version: 13.1.0
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.5.0
       tsup:
         specifier: ^8.0.0
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.3)
@@ -60,7 +82,7 @@ importers:
 
   packages/eslint-plugin:
     dependencies:
-      '@trace-shuttle/core':
+      '@kitazzz/trace-shuttle-core':
         specifier: workspace:*
         version: link:../core
       '@typescript-eslint/parser':
@@ -79,28 +101,6 @@ importers:
       eslint:
         specifier: ^9.0.0
         version: 9.39.4(jiti@2.6.1)
-      tsup:
-        specifier: ^8.0.0
-        version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.3)
-      typescript:
-        specifier: ^5.7.0
-        version: 5.9.3
-      vitest:
-        specifier: ^3.0.0
-        version: 3.2.4(@types/debug@4.1.13)(@types/node@25.5.0)(jiti@2.6.1)
-
-  packages/review:
-    dependencies:
-      '@trace-shuttle/core':
-        specifier: workspace:*
-        version: link:../core
-      commander:
-        specifier: ^13.0.0
-        version: 13.1.0
-    devDependencies:
-      '@types/node':
-        specifier: ^25.5.0
-        version: 25.5.0
       tsup:
         specifier: ^8.0.0
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.3)

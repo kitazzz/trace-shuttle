@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { join } from "node:path";
 import { createProgram } from "../cli.js";
-import { clearSpecIndexCache } from "@trace-shuttle/core";
+import { clearSpecIndexCache } from "@kitazzz/trace-shuttle-core";
 
 const EXAMPLES_DIR = join(__dirname, "../../../../examples");
 const SIMPLE_DIR = join(EXAMPLES_DIR, "scenarios/simple");

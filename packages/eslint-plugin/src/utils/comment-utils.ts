@@ -1,6 +1,6 @@
 import type { TSESTree } from "@typescript-eslint/utils";
 import type { SourceCode } from "@typescript-eslint/utils/ts-eslint";
-import { parseTrace } from "@trace-shuttle/core";
+import { parseTrace } from "@kitazzz/trace-shuttle-core";
 
 export interface ParsedAnnotation {
   type: "impl" | "test" | "needs-review";

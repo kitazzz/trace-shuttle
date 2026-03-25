@@ -1,14 +1,13 @@
 {
-  "name": "@trace-shuttle/review",
+  "name": "@kitazzz/trace-shuttle-cli",
   "version": "0.1.0",
-  "description": "CLI reporting and validation commands for trace-shuttle.",
+  "description": "CLI commands for reviewing and validating trace-shuttle annotations.",
   "license": "MIT",
   "author": "kitazzz",
   "keywords": [
     "traceability",
     "cli",
     "specification",
-    "review",
     "reporting"
   ],
   "type": "module",
@@ -33,7 +32,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@trace-shuttle/core": "workspace:*",
+    "@kitazzz/trace-shuttle-core": "workspace:*",
     "commander": "^13.0.0"
   },
   "devDependencies": {

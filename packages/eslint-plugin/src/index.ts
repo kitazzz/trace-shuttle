@@ -1,4 +1,4 @@
-import { getSpecIndex } from "@trace-shuttle/core";
+import { getSpecIndex } from "@kitazzz/trace-shuttle-core";
 import tsParser from "@typescript-eslint/parser";
 import { resolve } from "node:path";
 import { requireSpecRefOnBusinessBranch } from "./rules/require-spec-ref-on-business-branch.js";
@@ -18,7 +18,7 @@ const rules = {
 
 const plugin = {
   meta: {
-    name: "@trace-shuttle/eslint-plugin",
+    name: "@kitazzz/trace-shuttle-eslint-plugin",
     version: "0.1.0",
   },
   rules,

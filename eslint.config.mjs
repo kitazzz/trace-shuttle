@@ -1,4 +1,4 @@
-import { createShuttleConfig } from "@trace-shuttle/eslint-plugin";
+import { createShuttleConfig } from "@kitazzz/trace-shuttle-eslint-plugin";
 
 export default await createShuttleConfig({
   files: ["examples/scenarios/simple/src/**/*.ts"],

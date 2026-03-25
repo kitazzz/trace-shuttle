@@ -1,5 +1,8 @@
-import type { IndexedSpecIndex } from "@trace-shuttle/core";
-import { emptyIndexedSpecIndex, getSpecIndex } from "@trace-shuttle/core";
+import type { IndexedSpecIndex } from "@kitazzz/trace-shuttle-core";
+import {
+  emptyIndexedSpecIndex,
+  getSpecIndex,
+} from "@kitazzz/trace-shuttle-core";
 
 /**
  * Retrieve the docsDir from ESLint settings.
